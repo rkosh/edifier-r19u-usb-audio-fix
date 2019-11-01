@@ -1,12 +1,13 @@
 ﻿#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
 #Persistent
+#SingleInstance
 ; #Warn  ; Enable warnings to assist with detecting common errors.
 SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 
 #Include lib\VA.ahk
 
-global LOOKUP_INTERVAL = 1000 ; Time in milliseconds (lower means frequent changes)
+global LOOKUP_INTERVAL = 1000 ; Time in milliseconds (lower means frequent changes. Atleast 1000ms is recommended)
 global RIGHT_LEFT_VOLUME_RATIO := 1/2 ; Balance R -----X----- L
 
 
@@ -17,7 +18,8 @@ SetBalance(){
         device_name := VA_GetDeviceName(device)
     }
 
-    If ( InStr(device_name, "Realtek", false) || InStr(device_name, "DELL", false) ) {
+    ; Effective only for the following device ("EDIFIER R19U")
+    If not InStr(device_name, "EDIFIER R19U") {
         Return
     }
 
@@ -45,6 +47,14 @@ DecreaseVolume(){
 
 SetTimer, setBalance, %LOOKUP_INTERVAL% ; Check for changes after
 
+Menu, tray, NoStandard
+menu, tray, add
+menu, tray, add, Exit
+menu, tray, add
+return
+
+Exit:
+    ExitApp
 ; Uncomment the following code for realtime volume changes
 /*
 WheelUp::
