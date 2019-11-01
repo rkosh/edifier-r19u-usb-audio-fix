@@ -6,13 +6,22 @@ SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 #Include lib\VA.ahk
 
 
+
+Volume_Up::
+    volume_level := VA_GetMasterVolume()
+    VA_SetMasterVolume(volume_level + 2)
+
+Volume_Down::
+    volume_level := VA_GetMasterVolume()
+    VA_SetMasterVolume(volume_level - 1)
+
 SetBalance:
     device := VA_GetDevice("playback")
     device_name := ""
     If (device != 0) {
         device_name := VA_GetDeviceName(device)
     }
-	
+
     If ( InStr(device_name, "Realtek", false) || InStr(device_name, "DELL", false) ) {
         Return
     }
@@ -27,4 +36,4 @@ SetBalance:
     right_speaker := VA_GetMasterVolume(2)
 
 	VA_SetMasterVolume(curr_vol*right_speaker_ratio, 2)
-return
+    Return
