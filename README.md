@@ -2,13 +2,14 @@
 Fixes balance issues with Left and Right channel while using the USB Input.
 
 **How to Install**
-- Download the [Balance.exe](https://github.com/rkosh/edifier-r19u-usb-audio-fix/releases/download/v1.0/Balance.exe)
+- Download the [Balance.exe](https://github.com/rkosh/edifier-r19u-usb-audio-fix/releases/download/v1.0/Balance.exe) file.
 - Place it anywhere on your system.
-- Double Click Balance.exe and It will automatically appear in your tray icon.
+- *Double Click* **Balance.exe** and It will show up in your tray.
 - Enjoy!
 
 **How to Remove**
-- Delete Balance.exe (Duh!)
+- Exit Balance.exe from tray (If it is already running).
+- Delete Balance.exe file (Duh!).
 
 **Starting Automatically with Windows**
 - Place the file inside *C:\Users\[Username]\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup* folder
