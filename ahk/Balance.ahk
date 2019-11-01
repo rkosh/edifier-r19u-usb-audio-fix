@@ -5,17 +5,7 @@ SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 
 #Include lib\VA.ahk
 
-
-
-Volume_Up::
-    volume_level := VA_GetMasterVolume()
-    VA_SetMasterVolume(volume_level + 2)
-
-Volume_Down::
-    volume_level := VA_GetMasterVolume()
-    VA_SetMasterVolume(volume_level - 1)
-
-SetBalance:
+SetBalance(){
     device := VA_GetDevice("playback")
     device_name := ""
     If (device != 0) {
@@ -26,14 +16,52 @@ SetBalance:
         Return
     }
 
-    ; Get the master volume of the default playback device.
-    curr_vol := VA_GetMasterVolume()
+    ; Get the master volume of the specified playback device.
+    CurrVol := VA_GetMasterVolume()
 
-    right_speaker_ratio := 1/2
+    RtLfRatio := 1/2
 
     ; Get the volume of the first and second channels.
-    left_speaker := VA_GetMasterVolume(1)
-    right_speaker := VA_GetMasterVolume(2)
+    LSpeaker := VA_GetMasterVolume(1)
+    RSpeaker := VA_GetMasterVolume(2)
 
-	VA_SetMasterVolume(curr_vol*right_speaker_ratio, 2)
-    Return
+	VA_SetMasterVolume(CurrVol*RtLfRatio, 2)
+
+}
+
+IncreaseVolume(){
+    Level := VA_GetMasterVolume()
+    VA_SetMasterVolume(Level + 2)
+    SetBalance()
+}
+
+DecreaseVolume(){
+    Level := VA_GetMasterVolume()
+    VA_SetMasterVolume(Level - 2)
+    SetBalance()
+}
+
+
+WheelUp::
+Send, {WheelUp}
+WinGetActiveTitle, Title
+If (Title == "Volume Control") {
+    SetBalance()
+}
+return
+
+WheelDown::
+Send, {WheelDown}
+WinGetActiveTitle, Title
+If (Title == "Volume Control") {
+    SetBalance()
+}
+return
+
+Volume_Up::
+IncreaseVolume()
+return
+
+Volume_Down::
+DecreaseVolume()
+return
